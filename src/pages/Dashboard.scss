@@ -1,0 +1,70 @@
+@import '../config/variables.scss';
+@import '../config/mixins.scss';
+
+.dashboard {
+    width: 20%;
+    height: 100vh;
+    background-color: $dashboard-sidebar-background;
+    color: $dashboard-sidebar-text-color;
+    font-family: Arial, Helvetica, sans-serif;
+
+    .side-panel {
+        margin: 0 10px;
+
+        .dashboard-head {
+            @include center-componet;
+            justify-content: flex-start;
+            padding: 50px 20px;
+            height: 10vh;
+
+            .head {
+                min-width: 80%;
+                display: flex;
+                gap: 20px;
+                @include text-title;
+            }
+        }
+
+        .dashboard-head,
+        .options {
+            min-width: 100%;
+        }
+
+        .options {
+            height: 55vh;
+        }
+
+        .user-details {
+            padding: 50px 20px;
+            font-size: 12px;
+
+            .user-profile {
+                background-color: #ffffff38;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .left-side {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+
+                    .profile {
+
+                        img {
+                            width: 40px;
+                            border-radius: 50%;
+                        }
+                    }
+
+                    .description {
+                        opacity: 0.6;
+                    }
+                }
+                .right-side{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
