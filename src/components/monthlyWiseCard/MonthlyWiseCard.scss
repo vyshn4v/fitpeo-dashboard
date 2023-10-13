@@ -1,0 +1,29 @@
+@import "../../config/mixins.scss";
+.monthly-wise-card{
+    display: flex;
+    border-radius: 10px;
+    background-color: white;
+    justify-content: space-between;
+    padding: 10px;
+    .icons{
+        width: 50%;
+        .round{
+            background-color: green;
+            width: 100px;
+            height: 100px;
+            border-radius: 70%;
+            @include center-componet;
+        }
+    }
+
+    .details{
+        @include center-componet;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 50%;
+        .name{
+            @include text-content;
+            color: gray;
+        }
+    }
+}

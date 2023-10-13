@@ -7,9 +7,14 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+
 import './Dashboard.scss'
 import { useEffect, useState } from "react";
 import { getUserDetails } from "../services/user";
+import MonthlyWiseCard from "../components/monthlyWiseCard/MonthlyWiseCard";
 function Dashboard() {
     const [user, setUser] = useState({})
     const sidePanelOptions = [
@@ -36,6 +41,30 @@ function Dashboard() {
         {
             name: "Help",
             icon: <LiveHelpIcon />
+        }
+    ]
+
+    const monthlyDetails = [
+        {
+            name: 'Earnings',
+            icon: <AttachMoneyIcon className="money-icon"/>,
+            value: 234,
+            hike: '20%'
+        }, {
+            name: 'Orders',
+            icon: <ListAltIcon className="orders-icon"/>,
+            value: 234,
+            hike: '20%'
+        }, {
+            name: 'Balance',
+            icon: <AccountBalanceWalletIcon className="balance-icon"/>,
+            value: 234,
+            hike: '20%'
+        }, {
+            name: 'Total Sales',
+            icon: <ShoppingBagIcon className="total-sales-icon"/>,
+            value: 234,
+            hike: '20%'
         }
     ]
     useEffect(() => {
@@ -72,6 +101,19 @@ function Dashboard() {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className="dashboard-details">
+                <div className="dashboard-container">
+                    <div className="welcome-message">
+                        <h4>Hello {user.name} 👋</h4>
+                    </div>
+                    <div className="monthly-details">
+                        {
+                            monthlyDetails?.map((props, index) => <MonthlyWiseCard {...props} key={index} />)
+                        }
+                    </div>
+                   
                 </div>
             </div>
         </div>
