@@ -1,0 +1,11 @@
+@mixin text-title{
+    font-size: 20px;
+}
+@mixin text-content{
+    font-size: 14px;
+}
+@mixin center-componet{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
