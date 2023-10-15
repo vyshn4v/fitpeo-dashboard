@@ -1,11 +1,29 @@
-@mixin text-title{
+@mixin text-title {
     font-size: 20px;
 }
-@mixin text-content{
+
+@mixin text-content {
     font-size: 14px;
 }
-@mixin center-componet{
+
+@mixin center-componet {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@mixin laptop {
+    @media (max-width:1366px) {
+        @content;
+    }
+}
+@mixin tablets {
+    @media (max-width:769px) {
+        @content;
+    }
+}
+@mixin mobile {
+    @media (max-width:604px) {
+        @content;
+    }
 }
