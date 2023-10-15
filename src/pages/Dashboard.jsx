@@ -1,12 +1,4 @@
-import SidePanelOptionButton from "../components/sidePanelOptionButton/SidePanelOptionButton"
-import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ViewInArIcon from '@mui/icons-material/ViewInAr';
-import PersonIcon from '@mui/icons-material/Person';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import LiveHelpIcon from '@mui/icons-material/LiveHelp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
@@ -15,37 +7,27 @@ import { getUserDetails } from "../services/user";
 import MonthlyWiseCard from "../components/monthlyWiseCard/MonthlyWiseCard";
 import './Dashboard.scss'
 import Chart from '../components/chart/ChartComponent'
-import { Bar } from "react-chartjs-2";
-import { blue } from "@mui/material/colors";
+import MenuIcon from '@mui/icons-material/Menu';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+// fgdsgds
+import SidePanelOptionButton from "../components/sidePanelOptionButton/SidePanelOptionButton"
+import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import CloseIcon from '@mui/icons-material/Close';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ViewInArIcon from '@mui/icons-material/ViewInAr';
+import PersonIcon from '@mui/icons-material/Person';
+
 function Dashboard() {
     const [user, setUser] = useState({})
-    const sidePanelOptions = [
-        {
-            name: "Dashboard",
-            icon: <DashboardIcon />
-        },
-        {
-            name: "Product",
-            icon: <ViewInArIcon />
-        },
-        {
-            name: "Customers",
-            icon: <PersonIcon />
-        },
-        {
-            name: "Income",
-            icon: <AttachMoneyIcon />
-        },
-        {
-            name: "Promote",
-            icon: <LocalOfferIcon />
-        },
-        {
-            name: "Help",
-            icon: <LiveHelpIcon />
-        }
-    ]
+    const menu = useRef();
 
+    const handleMenu = () => {
+        menu.current.style.left = menu.current.style.left === "0px" ? "-300px" : "0px";
+    }
     const monthlyDetails = [
         {
             name: 'Earnings',
@@ -88,6 +70,13 @@ function Dashboard() {
             iconColor: 'red'
         }
     ]
+    window.addEventListener('resize', (ctx) => {
+        if (ctx.target.innerWidth > 1366) {
+            menu.current.style.left = "0px"
+        } else if (ctx.target.innerWidth < 1100) {
+            menu.current.style.left = "-300px"
+        }
+    })
     useEffect(() => {
         const user = getUserDetails()
         setUser(user)
@@ -103,13 +92,14 @@ function Dashboard() {
                     hoverBackgroundColor: barChartLabel?.map(() => "blue"),
                     data: barChartLabel?.map(() => Math.random() * 100),
                     borderSkipped: false,
-                    borderRadius:10,
-                    padding:10
+                    borderRadius: 10,
+                    padding: 10
                 }
             ]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     grid: {
@@ -143,6 +133,32 @@ function Dashboard() {
             }
         }
     }
+    const sidePanelOptions = [
+        {
+            name: "Dashboard",
+            icon: <DashboardIcon />
+        },
+        {
+            name: "Product",
+            icon: <ViewInArIcon />
+        },
+        {
+            name: "Customers",
+            icon: <PersonIcon />
+        },
+        {
+            name: "Income",
+            icon: <AttachMoneyIcon />
+        },
+        {
+            name: "Promote",
+            icon: <LocalOfferIcon />
+        },
+        {
+            name: "Help",
+            icon: <LiveHelpIcon />
+        }
+    ]
     const sliceThickness = {
         id: "sliceThickness",
         beforeDraw(chart, plugin) {
@@ -160,14 +176,14 @@ function Dashboard() {
 
             ctx.fillStyle = "black";
             ctx.font = "bold 33px Arial";
-            
+
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText("65%", chart.width / 2, chart.height / 2-22);
+            ctx.fillText("65%", chart.width / 2, chart.height / 2 - 22);
 
             ctx.font = "bold 20px Arial";
             ctx.fillText("Total New", chart.width / 2, chart.height / 2);
-            ctx.fillText("Customers", chart.width / 2, chart.height / 2+22);
+            ctx.fillText("Customers", chart.width / 2, chart.height / 2 + 22);
         }
     }
     const doughnutChartConfig = {
@@ -184,6 +200,8 @@ function Dashboard() {
             ]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             title: {
                 display: true,
                 text: 'Predicted world population (millions) in 2050'
@@ -196,9 +214,14 @@ function Dashboard() {
         },
         plugins: [sliceThickness]
     }
+
     return (
         <div className="dashboard">
-            <div className="side-panel">
+            <div className={"side-panel"} ref={menu}>
+
+                <div className="close-menu" onClick={handleMenu}>
+                    <CloseIcon />
+                </div>
                 <div className="dashboard-head">
                     <div className="head">
                         <SpaceDashboardIcon /><h4>Dashboard</h4>
@@ -231,7 +254,18 @@ function Dashboard() {
             <div className="dashboard-details">
                 <div className="dashboard-container">
                     <div className="welcome-message">
-                        <h4>Hello {user.name} 👋</h4>
+                        <div className="left">
+                            <div className="menu-hamberger" onClick={handleMenu}>
+                                <MenuIcon />
+                            </div>
+                            <h4>Hello {user.name} 👋</h4>
+                        </div>
+                        <div className="right">
+                            <div className="serach-bar">
+                                <ManageSearchIcon/>
+                                <input type="text" placeholder='Search' className='search-input'/>
+                            </div>
+                        </div>
                     </div>
                     <div className="monthly-details">
                         {
@@ -240,14 +274,30 @@ function Dashboard() {
                     </div>
                     <div className="graph">
                         <div className="line-graph">
+                            <div className="head">
+                                <div className="left">
+                                    <h3>Overview</h3>
+                                    <span>Monthly Earning</span>
+                                </div>
+                                <div className="right">
+                                    <span>Quarterly</span>
+                                    <ExpandMoreIcon/>
+                                </div>
+                            </div>
                             <Chart key={1} data={barchartConfig?.data} type={barchartConfig?.type} options={barchartConfig?.options} plugins={barChartLabel?.plugin} />
                         </div>
                         <div className="pie-graph">
+                            <div className="head">
+                                <h3>Customers</h3>
+                                <span>Customers that Buy products</span>
+                            </div>
                             <Chart key={2} data={doughnutChartConfig?.data} options={doughnutChartConfig?.options} type={doughnutChartConfig?.type} plugins={doughnutChartConfig?.plugins} />
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
     )
 }

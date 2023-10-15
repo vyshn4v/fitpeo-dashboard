@@ -15,15 +15,17 @@ function ChartComponent({ type, data, options, plugins }) {
         }
     }, [type, data, options]);
 
-
+    const style = {
+        height: "300px"
+    }
 
     return (
         <div>
             {
                 type === "bar" ? (
-                    <Bar key={Math.random()} data={data} options={options} ref={chartRef} plugins={plugins} />
+                    <Bar style={style} key={Math.random()} data={data} options={options} ref={chartRef} plugins={plugins} />
                 ) : type === "doughnut" ? (
-                    <Doughnut key={Math.random()} data={data} options={options} ref={chartRef} plugins={plugins} />
+                    <Doughnut style={style} key={Math.random()} data={data} options={options} ref={chartRef} plugins={plugins} />
                 ) : ""
             }
         </div>
