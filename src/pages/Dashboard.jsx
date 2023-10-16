@@ -20,7 +20,76 @@ import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import PersonIcon from '@mui/icons-material/Person';
+import { barchartConfig, doughnutChartConfig } from '../config/chart.config';
 
+const monthlyDetails = [
+    {
+        name: 'Earnings',
+        icon: <AttachMoneyIcon className="icon" />,
+        value: 234,
+        hike: {
+            status: 'up',
+            value: '37.8%'
+        },
+        iconBg: "rgba(0, 128, 0, 0.2)",
+        iconColor: 'green'
+    }, {
+        name: 'Orders',
+        icon: <ListAltIcon className="icon" />,
+        value: 234,
+        hike: {
+            status: 'down',
+            value: '2%'
+        },
+        iconBg: "rgba(206, 0, 206, 0.2)",
+        iconColor: 'purple'
+    }, {
+        name: 'Balance',
+        icon: <AccountBalanceWalletIcon className="icon" />,
+        value: 234,
+        hike: {
+            status: 'down',
+            value: '2%'
+        },
+        iconBg: "rgba(21, 0, 214, 0.2)",
+        iconColor: 'blue'
+    }, {
+        name: 'Total Sales',
+        icon: <ShoppingBagIcon className="icon" />,
+        value: 234,
+        hike: {
+            status: 'up',
+            value: '11%'
+        },
+        iconColor: 'red'
+    }
+]
+const sidePanelOptions = [
+    {
+        name: "Dashboard",
+        icon: <DashboardIcon />
+    },
+    {
+        name: "Product",
+        icon: <ViewInArIcon />
+    },
+    {
+        name: "Customers",
+        icon: <PersonIcon />
+    },
+    {
+        name: "Income",
+        icon: <AttachMoneyIcon />
+    },
+    {
+        name: "Promote",
+        icon: <LocalOfferIcon />
+    },
+    {
+        name: "Help",
+        icon: <LiveHelpIcon />
+    }
+]
 function Dashboard() {
     const [user, setUser] = useState({})
     const menu = useRef();
@@ -28,192 +97,17 @@ function Dashboard() {
     const handleMenu = () => {
         menu.current.style.left = menu.current.style.left === "0px" ? "-300px" : "0px";
     }
-    const monthlyDetails = [
-        {
-            name: 'Earnings',
-            icon: <AttachMoneyIcon className="icon" />,
-            value: 234,
-            hike: {
-                status: 'up',
-                value: '37.8%'
-            },
-            iconBg: "rgba(0, 128, 0, 0.2)",
-            iconColor: 'green'
-        }, {
-            name: 'Orders',
-            icon: <ListAltIcon className="icon" />,
-            value: 234,
-            hike: {
-                status: 'down',
-                value: '2%'
-            },
-            iconBg: "rgba(206, 0, 206, 0.2)",
-            iconColor: 'purple'
-        }, {
-            name: 'Balance',
-            icon: <AccountBalanceWalletIcon className="icon" />,
-            value: 234,
-            hike: {
-                status: 'down',
-                value: '2%'
-            },
-            iconBg: "rgba(21, 0, 214, 0.2)",
-            iconColor: 'blue'
-        }, {
-            name: 'Total Sales',
-            icon: <ShoppingBagIcon className="icon" />,
-            value: 234,
-            hike: {
-                status: 'up',
-                value: '11%'
-            },
-            iconColor: 'red'
-        }
-    ]
+
     window.addEventListener('resize', (ctx) => {
-        if (ctx.target.innerWidth > 1366) {
+        if (ctx.target.innerWidth > 1366 && menu.current.style.left === "-300px") {
             menu.current.style.left = "0px"
-        } else if (ctx.target.innerWidth < 1100) {
-            menu.current.style.left = "-300px"
         }
     })
+
     useEffect(() => {
         const user = getUserDetails()
         setUser(user)
     }, [])
-    const barChartLabel = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    const barchartConfig = {
-        type: 'bar',
-        data: {
-            labels: barChartLabel,
-            datasets: [
-                {
-                    backgroundColor: barChartLabel?.map(() => "rgba(182, 183, 255, 0.296)"),
-                    hoverBackgroundColor: barChartLabel?.map(() => "blue"),
-                    data: barChartLabel?.map(() => Math.random() * 100),
-                    borderSkipped: false,
-                    borderRadius: 10,
-                    padding: 10
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    grid: {
-                        display: false,
-                    }
-                    , border: {
-                        display: false,
-                    },
-                },
-                y: {
-                    grid: {
-
-                        display: false,
-                    },
-                    border: {
-                        display: false,
-                    },
-                    ticks: {
-                        display: false,
-                    }
-                }
-            },
-            title: {
-                display: false,
-                text: 'Predicted world population (millions) in 2050'
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        }
-    }
-    const sidePanelOptions = [
-        {
-            name: "Dashboard",
-            icon: <DashboardIcon />
-        },
-        {
-            name: "Product",
-            icon: <ViewInArIcon />
-        },
-        {
-            name: "Customers",
-            icon: <PersonIcon />
-        },
-        {
-            name: "Income",
-            icon: <AttachMoneyIcon />
-        },
-        {
-            name: "Promote",
-            icon: <LocalOfferIcon />
-        },
-        {
-            name: "Help",
-            icon: <LiveHelpIcon />
-        }
-    ]
-    const sliceThickness = {
-        id: "sliceThickness",
-        beforeDraw(chart, plugin) {
-            chart.getDatasetMeta(0).data[0].outerRadius = 150
-
-            chart.getDatasetMeta(0).data[1].outerRadius = 140
-            chart.getDatasetMeta(0).data[1].innerRadius = 90
-
-            chart.getDatasetMeta(0).data[2].innerRadius = 100
-            chart.getDatasetMeta(0).data[2].outerRadius = 130
-
-
-            // add text
-            const ctx = chart.ctx;
-
-            ctx.fillStyle = "black";
-            ctx.font = "bold 33px Arial";
-
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText("65%", chart.width / 2, chart.height / 2 - 22);
-
-            ctx.font = "bold 20px Arial";
-            ctx.fillText("Total New", chart.width / 2, chart.height / 2);
-            ctx.fillText("Customers", chart.width / 2, chart.height / 2 + 22);
-        }
-    }
-    const doughnutChartConfig = {
-        type: 'doughnut',
-        data: {
-            labels: ["Africa", "Asia", "Europe"],
-            datasets: [
-                {
-                    label: "Population (millions)",
-                    backgroundColor: ["#ff0080", "#8400ff", "rgba(182, 183, 255, 0.296)"],
-                    data: [20, 40, 40],
-                    borderWidth: [0, 0, 0]
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            title: {
-                display: true,
-                text: 'Predicted world population (millions) in 2050'
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        },
-        plugins: [sliceThickness]
-    }
 
     return (
         <div className="dashboard">
@@ -262,8 +156,8 @@ function Dashboard() {
                         </div>
                         <div className="right">
                             <div className="serach-bar">
-                                <ManageSearchIcon/>
-                                <input type="text" placeholder='Search' className='search-input'/>
+                                <ManageSearchIcon />
+                                <input type="text" placeholder='Search' className='search-input' />
                             </div>
                         </div>
                     </div>
@@ -281,10 +175,10 @@ function Dashboard() {
                                 </div>
                                 <div className="right">
                                     <span>Quarterly</span>
-                                    <ExpandMoreIcon/>
+                                    <ExpandMoreIcon />
                                 </div>
                             </div>
-                            <Chart key={1} data={barchartConfig?.data} type={barchartConfig?.type} options={barchartConfig?.options} plugins={barChartLabel?.plugin} />
+                            <Chart key={1} data={barchartConfig?.data} type={barchartConfig?.type} options={barchartConfig?.options} plugins={barchartConfig?.plugin} />
                         </div>
                         <div className="pie-graph">
                             <div className="head">
@@ -294,9 +188,47 @@ function Dashboard() {
                             <Chart key={2} data={doughnutChartConfig?.data} options={doughnutChartConfig?.options} type={doughnutChartConfig?.type} plugins={doughnutChartConfig?.plugins} />
                         </div>
                     </div>
+                    <div className="dashboard-table">
+                        <div className="table-head">
+                            <div className="left">
+                                <h3>Product Sell</h3>
+                            </div>
+                            <div className="right">
+                                <div className="search">
+                                    <ManageSearchIcon />
+                                    <input type="text" placeholder='Search' className='search-input' />
+                                </div>
+                                <div className="sort">
+                                    <span>Last 30 days</span>
+                                    <ExpandMoreIcon />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="table">
+                            <table>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Stock</th>
+                                    <th>Price</th>
+                                    <th>Total Sales</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://img.pikbest.com/origin/09/02/32/90WpIkbEsTIhn.jpg!w700wp" alt="" height={50} style={{ borderRadius: "10px" }} />
+                                        <div className="details">
+                                            <h4>Abstract 3D</h4>
+                                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+                                        </div>
+                                    </td>
+                                    <td>330</td>
+                                    <td>Germany</td>
+                                    <td>Germany</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-
 
         </div>
     )
