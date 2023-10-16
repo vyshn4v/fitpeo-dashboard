@@ -21,6 +21,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import PersonIcon from '@mui/icons-material/Person';
 import { barchartConfig, doughnutChartConfig } from '../config/chart.config';
+import { getProducts } from '../services/dashboard';
 
 const monthlyDetails = [
     {
@@ -92,6 +93,7 @@ const sidePanelOptions = [
 ]
 function Dashboard() {
     const [user, setUser] = useState({})
+    const [products, setProducts] = useState([])
     const menu = useRef();
 
     const handleMenu = () => {
@@ -106,7 +108,9 @@ function Dashboard() {
 
     useEffect(() => {
         const user = getUserDetails()
+        const products = getProducts()
         setUser(user)
+        setProducts(products)
     }, [])
 
     return (
@@ -212,18 +216,25 @@ function Dashboard() {
                                     <th>Price</th>
                                     <th>Total Sales</th>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <img src="https://img.pikbest.com/origin/09/02/32/90WpIkbEsTIhn.jpg!w700wp" alt="" height={50} style={{ borderRadius: "10px" }} />
-                                        <div className="details">
-                                            <h4>Abstract 3D</h4>
-                                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
-                                        </div>
-                                    </td>
-                                    <td>330</td>
-                                    <td>Germany</td>
-                                    <td>Germany</td>
-                                </tr>
+                                {
+                                    products?.map((data, index) => {
+                                        const {image,title,stock,description,price,totalSales}=data
+                                        return (
+                                            <tr key={index}>
+                                                <td>
+                                                    <img src={image} alt="" height={50} style={{ borderRadius: "10px" }} />
+                                                    <div className="details">
+                                                        <h4>{title}</h4>
+                                                        <p>{description}</p>
+                                                    </div>
+                                                </td>
+                                                <td>{stock}</td>
+                                                <td>${price}</td>
+                                                <td>{totalSales}</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
                             </table>
                         </div>
                     </div>
